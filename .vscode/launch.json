@@ -1,3 +1,4 @@
+// .vscode/launch.json
 {
     "version": "0.2.0",
     "configurations": [
@@ -15,3 +16,36 @@
         }
     ]
 }
+
+
+//Each team member must change the vmArgs path to match where they extracted JavaFX on their own computer. Windows example: C:/javafx-sdk-21/li
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
