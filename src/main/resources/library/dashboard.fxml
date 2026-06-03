@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<!-- dashboard.fxml — Main screen showing all books and navigation buttons -->
+<!-- MEMBER RESPONSIBLE: Obed Awuku Mawutor -->
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="library.controllers.DashboardController"
+      stylesheets="@styles.css"
+      spacing="0"
+      prefWidth="950" prefHeight="620">
+
+    <!-- ── Top Header Bar ── -->
+    <HBox styleClass="header" alignment="CENTER_LEFT" spacing="16">
+        <padding><Insets top="18" right="28" bottom="18" left="28"/></padding>
+        <Label text="📚" style="-fx-font-size: 26px;"/>
+        <VBox spacing="2">
+            <Label text="Library Management System" styleClass="header-title"/>
+            <Label text="Track, borrow and manage your books" styleClass="header-subtitle"/>
+        </VBox>
+        <HBox HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- ── Navigation Button Bar ── -->
+    <HBox styleClass="nav-bar" spacing="12" alignment="CENTER_LEFT">
+        <padding><Insets top="14" right="28" bottom="14" left="28"/></padding>
+        <Button text="➕  Add Book"        styleClass="btn-primary"   onAction="#openAddBook"/>
+        <Button text="🔍  Search Books"    styleClass="btn-secondary" onAction="#openSearch"/>
+        <Button text="📖  Borrow / Return" styleClass="btn-secondary" onAction="#openBorrowReturn"/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <!-- Edit and Delete act on selected table row -->
+        <Button text="✏️  Edit Book"   styleClass="btn-edit"   onAction="#editSelectedBook"/>
+        <Button text="🗑  Delete Book" styleClass="btn-delete" onAction="#deleteSelectedBook"/>
+    </HBox>
+
+    <!-- ── Book Table ── -->
+    <VBox VBox.vgrow="ALWAYS" styleClass="table-container">
+        <padding><Insets top="20" right="28" bottom="20" left="28"/></padding>
+
+        <Label text="All Books" styleClass="section-title"/>
+        <Region prefHeight="10"/>
+
+        <TableView fx:id="bookTable" VBox.vgrow="ALWAYS" styleClass="book-table">
+            <columns>
+                <TableColumn fx:id="colTitle"     text="Title"     prefWidth="240"/>
+                <TableColumn fx:id="colAuthor"    text="Author"    prefWidth="170"/>
+                <TableColumn fx:id="colGenre"     text="Genre"     prefWidth="120"/>
+                <TableColumn fx:id="colQuantity"  text="Total"     prefWidth="70"  style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="colAvailable" text="Available" prefWidth="90"  style="-fx-alignment: CENTER;"/>
+            </columns>
+            <placeholder>
+                <Label text="No books yet — click ➕ Add Book to get started" style="-fx-text-fill: #9e9e9e; -fx-font-size: 14px;"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+    <!-- ── Status Bar ── -->
+    <HBox styleClass="footer" alignment="CENTER_LEFT">
+        <padding><Insets top="10" right="28" bottom="10" left="28"/></padding>
+        <Label fx:id="statusLabel" styleClass="footer-text" text="Loading..."/>
+        <HBox HBox.hgrow="ALWAYS"/>
+        <Label text="💡 Select a row then click Edit or Delete" styleClass="footer-hint"/>
+    </HBox>
+
+</VBox>
