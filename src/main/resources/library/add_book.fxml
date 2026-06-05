@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<!-- add_book.fxml — Form to add a new book to the library -->
+<!-- MEMBER RESPONSIBLE: Precious Gati -->
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="library.controllers.AddBookController"
+      stylesheets="@styles.css"
+      spacing="0"
+      prefWidth="440" prefHeight="420">
+
+    <!-- Header -->
+    <HBox styleClass="header" alignment="CENTER_LEFT" spacing="12">
+        <padding><Insets top="18" right="24" bottom="18" left="24"/></padding>
+        <Label text="➕" style="-fx-font-size: 22px;"/>
+        <Label text="Add New Book" styleClass="header-title"/>
+    </HBox>
+
+    <!-- Form Body -->
+    <VBox styleClass="form-body" spacing="16" VBox.vgrow="ALWAYS">
+        <padding><Insets top="28" right="32" bottom="20" left="32"/></padding>
+
+        <!-- Title Field -->
+        <VBox spacing="6">
+            <Label text="Book Title *" styleClass="field-label"/>
+            <TextField fx:id="titleField" promptText="e.g. Things Fall Apart" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Author Field -->
+        <VBox spacing="6">
+            <Label text="Author *" styleClass="field-label"/>
+            <TextField fx:id="authorField" promptText="e.g. Chinua Achebe" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Genre Field -->
+        <VBox spacing="6">
+            <Label text="Genre *" styleClass="field-label"/>
+            <TextField fx:id="genreField" promptText="e.g. Fiction, Science, History" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Quantity Field -->
+        <VBox spacing="6">
+            <Label text="Quantity *" styleClass="field-label"/>
+            <TextField fx:id="quantityField" promptText="e.g. 5" styleClass="form-field"/>
+        </VBox>
+
+        <!-- Feedback Label -->
+        <Label fx:id="feedbackLabel" text="" wrapText="true" style="-fx-font-size: 13px;"/>
+
+        <!-- Action Buttons -->
+        <HBox spacing="12" alignment="CENTER_RIGHT">
+            <Button text="Clear"    styleClass="btn-secondary" onAction="#clearForm"/>
+            <Button text="💾  Save Book" styleClass="btn-primary"   onAction="#saveBook"/>
+        </HBox>
+
+        <Button text="← Back to Dashboard" styleClass="btn-link" onAction="#closeWindow"/>
+    </VBox>
+
+</VBox>
