@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="library.controllers.EditBookController"
+      styleClass="form-container">
+
+    <!-- Header -->
+    <VBox styleClass="form-header" spacing="4">
+        <Label text="Edit Book" styleClass="form-title"/>
+        <Label text="Update the book details below and click Save."
+               styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Body -->
+    <VBox styleClass="form-body" spacing="16">
+
+        <VBox spacing="5">
+            <Label text="TITLE" styleClass="form-label"/>
+            <TextField fx:id="titleField" prefWidth="360"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="AUTHOR" styleClass="form-label"/>
+            <TextField fx:id="authorField" prefWidth="360"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="GENRE" styleClass="form-label"/>
+            <TextField fx:id="genreField" prefWidth="360"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="QUANTITY" styleClass="form-label"/>
+            <TextField fx:id="quantityField" prefWidth="360"/>
+        </VBox>
+
+    </VBox>
+
+    <!-- Footer -->
+    <HBox styleClass="form-footer" alignment="CENTER_RIGHT" spacing="10">
+        <Button text="Cancel" styleClass="btn-secondary" onAction="#handleCancel"/>
+        <Button text="Save Changes" styleClass="btn-primary" onAction="#handleSave"/>
+    </HBox>
+
+</VBox>

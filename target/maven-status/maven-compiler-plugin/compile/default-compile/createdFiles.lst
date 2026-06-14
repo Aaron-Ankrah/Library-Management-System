@@ -1,0 +1,10 @@
+library\controllers\DashboardController.class
+library\controllers\AllBooksViewController.class
+library\LibraryData.class
+library\controllers\DashboardController$ViewInitializer.class
+library\controllers\BorrowReturnController.class
+library\controllers\EditBookController.class
+library\controllers\AddBookController.class
+library\controllers\SearchController.class
+library\Main.class
+library\Book.class

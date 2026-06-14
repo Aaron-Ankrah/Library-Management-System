@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="library.controllers.DashboardController">
+
+    <!-- ── Sidebar ────────────────────────────────────────────── -->
+    <left>
+        <VBox styleClass="sidebar">
+
+            <!-- Branding -->
+            <VBox styleClass="sidebar-brand" spacing="3">
+                <Label text="LibraryPro" styleClass="brand-label"/>
+                <Label text="Management System" styleClass="brand-sub"/>
+            </VBox>
+
+            <!-- Navigation -->
+            <VBox VBox.vgrow="ALWAYS" spacing="1" style="-fx-padding: 8 0 0 0;">
+                <Label text="NAVIGATION" styleClass="nav-section-label"/>
+                <Button fx:id="navAllBooks" text="  All Books" styleClass="nav-button,nav-active"
+                        maxWidth="Infinity" onAction="#showAllBooks"/>
+                <Button fx:id="navSearch" text="  Search" styleClass="nav-button"
+                        maxWidth="Infinity" onAction="#showSearch"/>
+                <Button fx:id="navAddBook" text="  Add Book" styleClass="nav-button"
+                        maxWidth="Infinity" onAction="#showAddBook"/>
+                <Button fx:id="navBorrowReturn" text="  Borrow / Return" styleClass="nav-button"
+                        maxWidth="Infinity" onAction="#showBorrowReturn"/>
+            </VBox>
+
+            <!-- Sidebar Footer Stats -->
+            <VBox styleClass="sidebar-footer" spacing="4">
+                <Label text="TOTAL BOOKS" styleClass="sidebar-footer-label"/>
+                <Label fx:id="sidebarTotalLabel" text="0" styleClass="sidebar-footer-count"/>
+            </VBox>
+
+        </VBox>
+    </left>
+
+    <!-- ── Content Area (Switchable Views) ───────────────────── -->
+    <center>
+        <StackPane fx:id="contentArea"/>
+    </center>
+
+</BorderPane>

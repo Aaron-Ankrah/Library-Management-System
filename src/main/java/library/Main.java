@@ -77,7 +77,7 @@ public class Main extends Application {
  
         // Step 3 — Create a Scene from the loaded layout.
         //          800 x 600 is the initial window size (width x height).
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1060, 680);
  
         // Step 4 — Attach the optional stylesheet if it exists.
         //          This line is safe to keep even before styles.css
@@ -92,8 +92,8 @@ public class Main extends Application {
         // Step 5 — Configure and show the primary window.
         primaryStage.setTitle("Library Management System");
         primaryStage.setScene(scene);
-        primaryStage.setMinWidth(700);   // Prevent the window from
-        primaryStage.setMinHeight(500);  // being resized too small
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(600);
         primaryStage.show();
     }
  

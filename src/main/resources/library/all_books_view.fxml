@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="library.controllers.AllBooksViewController">
+
+    <!-- Page Header -->
+    <HBox styleClass="top-header" alignment="CENTER_LEFT" spacing="12">
+        <Label text="All Books" styleClass="page-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="editBtn" text="Edit Book" styleClass="btn-secondary"
+                onAction="#handleEditBook" disable="true"/>
+        <Button fx:id="deleteBtn" text="Delete" styleClass="btn-danger"
+                onAction="#handleDeleteBook" disable="true"/>
+    </HBox>
+
+    <!-- Stats Cards -->
+    <HBox styleClass="stats-row" spacing="14">
+        <HBox styleClass="stat-card" alignment="CENTER_LEFT">
+            <VBox spacing="3">
+                <Label fx:id="totalBooksLabel" text="0" styleClass="stat-number"/>
+                <Label text="Total Books" styleClass="stat-label"/>
+            </VBox>
+        </HBox>
+        <HBox styleClass="stat-card" alignment="CENTER_LEFT">
+            <VBox spacing="3">
+                <Label fx:id="availableLabel" text="0" styleClass="stat-number"
+                       style="-fx-text-fill: #059669;"/>
+                <Label text="Available Copies" styleClass="stat-label"/>
+            </VBox>
+        </HBox>
+        <HBox styleClass="stat-card" alignment="CENTER_LEFT">
+            <VBox spacing="3">
+                <Label fx:id="borrowedLabel" text="0" styleClass="stat-number"
+                       style="-fx-text-fill: #d97706;"/>
+                <Label text="Borrowed Copies" styleClass="stat-label"/>
+            </VBox>
+        </HBox>
+    </HBox>
+
+    <!-- Book Table -->
+    <VBox styleClass="table-area" VBox.vgrow="ALWAYS">
+        <TableView fx:id="bookTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="titleColumn"     text="TITLE"     prefWidth="240"/>
+                <TableColumn fx:id="authorColumn"    text="AUTHOR"    prefWidth="170"/>
+                <TableColumn fx:id="genreColumn"     text="GENRE"     prefWidth="130"/>
+                <TableColumn fx:id="quantityColumn"  text="QTY"       prefWidth="60"/>
+                <TableColumn fx:id="availableColumn" text="AVAILABLE" prefWidth="100"/>
+            </columns>
+            <placeholder>
+                <Label text="No books yet — click Add Book to get started."
+                       styleClass="table-placeholder"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+</VBox>
