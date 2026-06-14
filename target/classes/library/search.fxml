@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="library.controllers.SearchController"
+      styleClass="form-container">
+
+    <!-- Dark Header -->
+    <VBox styleClass="search-header" spacing="4">
+        <Label text="Search Books" styleClass="search-title"/>
+        <Label text="Search by title or author across your entire library."
+               styleClass="search-subtitle"/>
+    </VBox>
+
+    <!-- Search Bar -->
+    <HBox styleClass="search-bar-area" spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Type a title or author name..."
+                   HBox.hgrow="ALWAYS" onKeyReleased="#handleLiveSearch"/>
+        <Button text="Search" styleClass="btn-primary" onAction="#handleSearch"/>
+        <Button text="Clear" styleClass="btn-secondary" onAction="#handleClear"/>
+    </HBox>
+
+    <!-- Results Count -->
+    <HBox style="-fx-padding: 8 24 0 24; -fx-background-color: #f8fafc;">
+        <Label fx:id="resultCountLabel" text="Showing all books"
+               style="-fx-text-fill: #64748b; -fx-font-size: 12px;"/>
+    </HBox>
+
+    <!-- Results Table -->
+    <VBox styleClass="table-area" VBox.vgrow="ALWAYS" style="-fx-padding: 8 24 20 24;">
+        <TableView fx:id="resultsTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="titleColumn"     text="TITLE"     prefWidth="220"/>
+                <TableColumn fx:id="authorColumn"    text="AUTHOR"    prefWidth="160"/>
+                <TableColumn fx:id="genreColumn"     text="GENRE"     prefWidth="120"/>
+                <TableColumn fx:id="quantityColumn"  text="QTY"       prefWidth="55"/>
+                <TableColumn fx:id="availableColumn" text="AVAILABLE" prefWidth="90"/>
+            </columns>
+            <placeholder>
+                <Label text="No results found." styleClass="table-placeholder"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+</VBox>

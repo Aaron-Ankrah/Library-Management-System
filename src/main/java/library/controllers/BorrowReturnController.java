@@ -1,119 +1,88 @@
 package library.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import library.Book;
 import library.LibraryData;
 import library.Main;
 
-import java.util.Optional;
-
-/**
- * BorrowReturnController.java
- * ---------------------------
- * Controls the Borrow / Return screen.
- * The user types a book title, searches for it,
- * then clicks Borrow or Return to update its availability.
- *
- * MEMBER RESPONSIBLE: Nyarko Bismark
- */
 public class BorrowReturnController {
 
-    // ── UI elements (linked to FXML) ─────────────────────────────────────────
-    @FXML private TextField searchField;
-    @FXML private Label     titleLabel;
-    @FXML private Label     authorLabel;
-    @FXML private Label     genreLabel;
-    @FXML private Label     availableLabel;
-    @FXML private Label     feedbackLabel;
-    @FXML private Button    borrowButton;
-    @FXML private Button    returnButton;
+    @FXML private TableView<Book> bookTable;
+    @FXML private TableColumn<Book, String>  titleColumn;
+    @FXML private TableColumn<Book, String>  authorColumn;
+    @FXML private TableColumn<Book, String>  genreColumn;
+    @FXML private TableColumn<Book, Integer> availableColumn;
+    @FXML private Label statusLabel;
 
-    // The book that was found by the search
-    private Book selectedBook = null;
-
-    // ── Search action ────────────────────────────────────────────────────────
     @FXML
-    private void searchBook() {
-        String query = searchField.getText().trim().toLowerCase();
+    public void initialize() {
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        availableColumn.setCellValueFactory(new PropertyValueFactory<>("available"));
 
-        if (query.isEmpty()) {
-            showFeedback("⚠ Please enter a book title to search.", "orange");
+        bookTable.setItems(Main.books);
+
+        bookTable.getSelectionModel().selectedItemProperty().addListener(
+            (obs, oldVal, book) -> {
+                if (book == null) {
+                    statusLabel.setText("Select a book to borrow or return.");
+                } else if (book.getAvailable() == 0) {
+                    statusLabel.setText("\"" + book.getTitle() + "\" — no copies available to borrow.");
+                } else {
+                    statusLabel.setText("\"" + book.getTitle() + "\" — "
+                        + book.getAvailable() + " of " + book.getQuantity() + " copies available.");
+                }
+            }
+        );
+    }
+
+    @FXML
+    private void handleBorrow() {
+        Book book = bookTable.getSelectionModel().getSelectedItem();
+        if (book == null) {
+            showAlert("No Selection", "Please select a book to borrow.", Alert.AlertType.WARNING);
             return;
         }
-
-        // Look for a matching book in the shared list (title match)
-        Optional<Book> result = Main.books.stream()
-            .filter(b -> b.getTitle().toLowerCase().contains(query))
-            .findFirst();
-
-        if (result.isPresent()) {
-            selectedBook = result.get();
-            displayBookDetails(selectedBook);
-            showFeedback("Book found! You can now borrow or return it.", "#2e7d32");
-        } else {
-            clearBookDetails();
-            showFeedback("⚠ No book found with that title.", "red");
+        if (book.getAvailable() <= 0) {
+            showAlert("Not Available", "All copies of this book are currently on loan.", Alert.AlertType.WARNING);
+            return;
         }
+        book.setAvailable(book.getAvailable() - 1);
+        bookTable.refresh();
+        LibraryData.saveBooks(Main.books);
+        statusLabel.setText("Borrowed. \"" + book.getTitle() + "\" — "
+            + book.getAvailable() + " of " + book.getQuantity() + " copies remaining.");
     }
 
-    /** Shows the found book's details in the info section */
-    private void displayBookDetails(Book book) {
-        titleLabel.setText("Title: "     + book.getTitle());
-        authorLabel.setText("Author: "   + book.getAuthor());
-        genreLabel.setText("Genre: "     + book.getGenre());
-        availableLabel.setText("Available: " + book.getAvailable() + " / " + book.getQuantity());
-
-        // Enable the action buttons
-        borrowButton.setDisable(false);
-        returnButton.setDisable(false);
-    }
-
-    private void clearBookDetails() {
-        selectedBook = null;
-        titleLabel.setText("Title: —");
-        authorLabel.setText("Author: —");
-        genreLabel.setText("Genre: —");
-        availableLabel.setText("Available: —");
-        borrowButton.setDisable(true);
-        returnButton.setDisable(true);
-    }
-
-    // ── Borrow action ────────────────────────────────────────────────────────
     @FXML
-    private void borrowBook() {
-        if (selectedBook == null) return;
-
-        boolean success = selectedBook.borrowBook();
-
-        if (success) {
-            LibraryData.saveBooks(Main.books); // save after change
-            availableLabel.setText("Available: " + selectedBook.getAvailable() + " / " + selectedBook.getQuantity());
-            showFeedback("✔ Book borrowed successfully!", "#1565c0");
-        } else {
-            showFeedback("✘ No copies available to borrow.", "red");
+    private void handleReturn() {
+        Book book = bookTable.getSelectionModel().getSelectedItem();
+        if (book == null) {
+            showAlert("No Selection", "Please select a book to return.", Alert.AlertType.WARNING);
+            return;
         }
+        if (book.getAvailable() >= book.getQuantity()) {
+            showAlert("Cannot Return", "All copies are already in the library.", Alert.AlertType.WARNING);
+            return;
+        }
+        book.setAvailable(book.getAvailable() + 1);
+        bookTable.refresh();
+        LibraryData.saveBooks(Main.books);
+        statusLabel.setText("Returned. \"" + book.getTitle() + "\" — "
+            + book.getAvailable() + " of " + book.getQuantity() + " copies available.");
     }
 
-    // ── Return action ────────────────────────────────────────────────────────
-    @FXML
-    private void returnBook() {
-        if (selectedBook == null) return;
-
-        boolean success = selectedBook.returnBook();
-
-        if (success) {
-            LibraryData.saveBooks(Main.books); // save after change
-            availableLabel.setText("Available: " + selectedBook.getAvailable() + " / " + selectedBook.getQuantity());
-            showFeedback("✔ Book returned successfully!", "#2e7d32");
-        } else {
-            showFeedback("✘ No borrowed copies to return.", "red");
-        }
-    }
-
-    // ── Utility ──────────────────────────────────────────────────────────────
-    private void showFeedback(String message, String color) {
-        feedbackLabel.setText(message);
-        feedbackLabel.setStyle("-fx-text-fill: " + color + ";");
+    private void showAlert(String title, String msg, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

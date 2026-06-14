@@ -1,86 +1,81 @@
 package library.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import library.Book;
 import library.LibraryData;
 import library.Main;
 
-/**
- * AddBookController.java
- * ----------------------
- * Controls the Add Book screen.
- * Reads values from the input form, validates them,
- * creates a new Book, and saves it to the list and file.
- *
- * MEMBER RESPONSIBLE: Precious Gati
- */
 public class AddBookController {
 
-    // ── Form fields (linked to FXML) ─────────────────────────────────────────
     @FXML private TextField titleField;
     @FXML private TextField authorField;
     @FXML private TextField genreField;
     @FXML private TextField quantityField;
-    @FXML private Label feedbackLabel;
 
-    // ── Save button action ───────────────────────────────────────────────────
-    @FXML
-    private void saveBook() {
-        // Read input from the form fields
-        String title    = titleField.getText().trim();
-        String author   = authorField.getText().trim();
-        String genre    = genreField.getText().trim();
-        String qtyText  = quantityField.getText().trim();
+    private DashboardController dashboard;
 
-        // Validate — make sure no field is empty
-        if (title.isEmpty() || author.isEmpty() || genre.isEmpty() || qtyText.isEmpty()) {
-            showFeedback("⚠ Please fill in all fields.", "red");
-            return;
-        }
-
-        // Validate — quantity must be a positive number
-        int quantity;
-        try {
-            quantity = Integer.parseInt(qtyText);
-            if (quantity <= 0) throw new NumberFormatException();
-        } catch (NumberFormatException e) {
-            showFeedback("⚠ Quantity must be a positive number.", "red");
-            return;
-        }
-
-        // Create the new book and add it to the shared list
-        Book newBook = new Book(title, author, genre, quantity);
-        Main.books.add(newBook);
-
-        // Save updated list to file immediately
-        LibraryData.saveBooks(Main.books);
-
-        showFeedback("✔ Book added successfully!", "green");
-        clearForm();
+    public void setDashboard(DashboardController dashboard) {
+        this.dashboard = dashboard;
     }
 
-    // ── Clear button action ──────────────────────────────────────────────────
     @FXML
-    private void clearForm() {
+    private void handleAdd() {
+        String title = titleField.getText().trim();
+        String author = authorField.getText().trim();
+        String genre = genreField.getText().trim();
+        String quantityText = quantityField.getText().trim();
+
+        // Validation
+        if (title.isEmpty() || author.isEmpty() || genre.isEmpty() || quantityText.isEmpty()) {
+            showAlert("Validation Error", "All fields are required.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        int quantity;
+        try {
+            quantity = Integer.parseInt(quantityText);
+            if (quantity <= 0) {
+                showAlert("Validation Error", "Quantity must be a positive number.", Alert.AlertType.WARNING);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Validation Error", "Quantity must be a valid number.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // Create and add the book
+        Book newBook = new Book(title, author, genre, quantity);
+        Main.books.add(newBook);
+        LibraryData.saveBooks(Main.books);
+
+        showAlert("Success", "Book added successfully!", Alert.AlertType.INFORMATION);
+
+        // Clear fields
         titleField.clear();
         authorField.clear();
         genreField.clear();
         quantityField.clear();
-        feedbackLabel.setText("");
+
+        // Navigate back to All Books
+        if (dashboard != null) {
+            dashboard.showAllBooks();
+        }
     }
 
-    // ── Close button action ──────────────────────────────────────────────────
     @FXML
-    private void closeWindow() {
-        Stage stage = (Stage) titleField.getScene().getWindow();
-        stage.close();
+    private void handleCancel() {
+        if (dashboard != null) {
+            dashboard.showAllBooks();
+        }
     }
 
-    // ── Utility ──────────────────────────────────────────────────────────────
-    private void showFeedback(String message, String color) {
-        feedbackLabel.setText(message);
-        feedbackLabel.setStyle("-fx-text-fill: " + color + ";");
+    private void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

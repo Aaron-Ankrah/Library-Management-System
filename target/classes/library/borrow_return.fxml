@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="library.controllers.BorrowReturnController"
+      styleClass="form-container">
+
+    <!-- Header -->
+    <VBox styleClass="form-header" spacing="4">
+        <Label text="Borrow / Return Books" styleClass="form-title"/>
+        <Label text="Select a book from the table, then choose an action."
+               styleClass="form-subtitle"/>
+    </VBox>
+
+    <!-- Table -->
+    <VBox styleClass="table-area" VBox.vgrow="ALWAYS">
+        <TableView fx:id="bookTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="titleColumn"     text="TITLE"     prefWidth="230"/>
+                <TableColumn fx:id="authorColumn"    text="AUTHOR"    prefWidth="160"/>
+                <TableColumn fx:id="genreColumn"     text="GENRE"     prefWidth="110"/>
+                <TableColumn fx:id="availableColumn" text="AVAILABLE" prefWidth="90"/>
+            </columns>
+            <placeholder>
+                <Label text="No books available." styleClass="table-placeholder"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+    <!-- Footer Actions -->
+    <HBox styleClass="form-footer" alignment="CENTER" spacing="16">
+        <Label fx:id="statusLabel" text="Select a book to borrow or return."
+               style="-fx-text-fill: #64748b; -fx-font-size: 13px;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Borrow" styleClass="btn-success" onAction="#handleBorrow"/>
+        <Button text="Return" styleClass="btn-warning" onAction="#handleReturn"/>
+    </HBox>
+
+</VBox>
