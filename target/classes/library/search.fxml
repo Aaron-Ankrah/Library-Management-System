@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<!-- search.fxml — Search books by title or author -->
+<!-- MEMBER RESPONSIBLE: ⁠Sandra Gah -->
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="library.controllers.SearchController"
+      stylesheets="@styles.css"
+      spacing="0"
+      prefWidth="780" prefHeight="500">
+
+    <!-- Header -->
+    <HBox styleClass="header" alignment="CENTER_LEFT" spacing="12">
+        <padding><Insets top="18" right="24" bottom="18" left="24"/></padding>
+        <Label text="🔍" style="-fx-font-size: 22px;"/>
+        <Label text="Search Books" styleClass="header-title"/>
+    </HBox>
+
+    <!-- Search Bar -->
+    <HBox styleClass="search-bar" spacing="10" alignment="CENTER_LEFT">
+        <padding><Insets top="16" right="24" bottom="16" left="24"/></padding>
+        <TextField fx:id="searchField"
+                   promptText="Search by title or author..."
+                   styleClass="search-field"
+                   HBox.hgrow="ALWAYS"/>
+        <Button text="✕ Clear" styleClass="btn-secondary" onAction="#clearSearch"/>
+        <Label fx:id="resultCountLabel" styleClass="result-count" text=""/>
+    </HBox>
+
+    <!-- Results Table -->
+    <VBox VBox.vgrow="ALWAYS" styleClass="table-container">
+        <padding><Insets top="12" right="24" bottom="20" left="24"/></padding>
+
+        <TableView fx:id="resultTable" VBox.vgrow="ALWAYS" styleClass="book-table">
+            <columns>
+                <TableColumn fx:id="colTitle"     text="Title"     prefWidth="260"/>
+                <TableColumn fx:id="colAuthor"    text="Author"    prefWidth="180"/>
+                <TableColumn fx:id="colGenre"     text="Genre"     prefWidth="120"/>
+                <TableColumn fx:id="colQuantity"  text="Total"     prefWidth="70"  style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="colAvailable" text="Available" prefWidth="90"  style="-fx-alignment: CENTER;"/>
+            </columns>
+            <placeholder>
+                <Label text="No books match your search" style="-fx-text-fill: #9e9e9e; -fx-font-size: 14px;"/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+</VBox>
