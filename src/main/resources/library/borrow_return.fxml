@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<!-- borrow_return.fxml — Borrow or return a book -->
+<!-- MEMBER RESPONSIBLE: Agbeko Rachael Fafali -->
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="library.controllers.BorrowReturnController"
+      stylesheets="@styles.css"
+      spacing="0"
+      prefWidth="460" prefHeight="430">
+
+    <!-- Header -->
+    <HBox styleClass="header" alignment="CENTER_LEFT" spacing="12">
+        <padding><Insets top="18" right="24" bottom="18" left="24"/></padding>
+        <Label text="📖" style="-fx-font-size: 22px;"/>
+        <Label text="Borrow / Return" styleClass="header-title"/>
+    </HBox>
+
+    <!-- Body -->
+    <VBox spacing="20" VBox.vgrow="ALWAYS" styleClass="form-body">
+        <padding><Insets top="28" right="32" bottom="24" left="32"/></padding>
+
+        <!-- Search Section -->
+        <VBox spacing="8">
+            <Label text="Search for a Book" styleClass="section-title"/>
+            <HBox spacing="10">
+                <TextField fx:id="searchField"
+                           promptText="Enter book title..."
+                           styleClass="form-field"
+                           HBox.hgrow="ALWAYS"/>
+                <Button text="Search" styleClass="btn-primary" onAction="#searchBook"/>
+            </HBox>
+        </VBox>
+
+        <!-- Book Info Card -->
+        <VBox styleClass="book-card" spacing="8">
+            <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
+            <Label text="Book Details" styleClass="field-label"/>
+            <Label fx:id="titleLabel"     text="Title: —"     styleClass="book-info"/>
+            <Label fx:id="authorLabel"    text="Author: —"    styleClass="book-info"/>
+            <Label fx:id="genreLabel"     text="Genre: —"     styleClass="book-info"/>
+            <Label fx:id="availableLabel" text="Available: —" styleClass="book-info-highlight"/>
+        </VBox>
+
+        <!-- Feedback -->
+        <Label fx:id="feedbackLabel" text="" wrapText="true" style="-fx-font-size: 13px;"/>
+
+        <!-- Action Buttons -->
+        <HBox spacing="16" alignment="CENTER">
+            <Button fx:id="borrowButton" text="📤  Borrow Book"
+                    styleClass="btn-borrow"
+                    onAction="#borrowBook"
+                    disable="true"
+                    prefWidth="170"/>
+            <Button fx:id="returnButton" text="📥  Return Book"
+                    styleClass="btn-return"
+                    onAction="#returnBook"
+                    disable="true"
+                    prefWidth="170"/>
+        </HBox>
+
+    </VBox>
+
+</VBox>
